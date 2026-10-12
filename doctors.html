@@ -1,9 +1,33 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HosAppoint – View Doctors Page</title><link rel="stylesheet" href="style.css"></head>
-<body data-page="doctors"><div class="app"><aside id="sidebar"></aside><main>
-<header><h1>View Doctors Page</h1><button class="logout" id="logout">Logout</button></header>
-<div class="filters"><select id="area"><option value="">Select Area of Concern</option></select>
-<select id="gender"><option value="">Select Gender of Doctor</option><option>Female</option><option>Male</option></select></div>
-<div id="list"></div><button class="btn" id="bookBtn" disabled>Book Appointment</button>
-</main></div><script src="app.js"></script></body></html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HosAppoint – View Doctors Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="doctors">
+    <div class="app">
+        <aside id="sidebar"></aside>
+        <main>
+            <header>
+                <h1>View Doctors Page</h1><button class="logout" id="logout">Logout</button>
+            </header>
+            <div class="filters"><select id="area">
+                    <option value="">Select Area of Concern</option>
+                </select>
+                <select id="gender">
+                    <option value="">Select Gender of Doctor</option>
+                    <option>Female</option>
+                    <option>Male</option>
+                </select>
+            </div>
+            <div id="list"></div><button class="btn" id="bookBtn" disabled>Book Appointment</button>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

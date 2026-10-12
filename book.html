@@ -1,17 +1,56 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HosAppoint – Appointment Form</title><link rel="stylesheet" href="style.css"></head>
-<body data-page="book"><div class="app"><aside id="sidebar"></aside><main>
-<header><h1>Appointment Form</h1><button class="logout" id="logout">Logout</button></header>
-<p id="docInfo" style="font:14px Arial"></p>
-<form id="bookForm" novalidate>
-<label>Name:</label><input id="name"><div class="err" data-for="name"></div>
-<div class="row"><div><label>Age:</label><input id="age" type="number" min="0" max="120"><div class="err" data-for="age"></div></div>
-<div><label>Gender:</label><select id="pgender"><option value="">Select</option><option>Female</option><option>Male</option><option>Other</option></select><div class="err" data-for="pgender"></div></div></div>
-<label>Email:</label><input id="email" type="email"><div class="err" data-for="email"></div>
-<label>Phone Number:</label><input id="phone" type="tel" placeholder="+256700000000"><div class="err" data-for="phone"></div>
-<label>Location:</label><input id="location"><div class="err" data-for="location"></div>
-<div class="row"><div><label>Time:</label><input id="time" type="time"><div class="err" data-for="time"></div></div>
-<div><label>Date:</label><input id="date" type="date"><div class="err" data-for="date"></div></div></div>
-<button class="btn" type="submit">Submit</button></form>
-</main></div><script src="app.js"></script></body></html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HosAppoint – Appointment Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="book">
+    <div class="app">
+        <aside id="sidebar"></aside>
+        <main>
+            <header>
+                <h1>Appointment Form</h1><button class="logout" id="logout">Logout</button>
+            </header>
+            <p id="docInfo" style="font:14px Arial"></p>
+            <form id="bookForm" novalidate>
+                <label>Name:</label><input id="name">
+                <div class="err" data-for="name"></div>
+                <div class="row">
+                    <div><label>Age:</label><input id="age" type="number" min="0" max="120">
+                        <div class="err" data-for="age"></div>
+                    </div>
+                    <div><label>Gender:</label><select id="pgender">
+                            <option value="">Select</option>
+                            <option>Female</option>
+                            <option>Male</option>
+                            <option>Other</option>
+                        </select>
+                        <div class="err" data-for="pgender"></div>
+                    </div>
+                </div>
+                <label>Email:</label><input id="email" type="email">
+                <div class="err" data-for="email"></div>
+                <label>Phone Number:</label><input id="phone" type="tel" placeholder="+256700000000">
+                <div class="err" data-for="phone"></div>
+                <label>Location:</label><input id="location">
+                <div class="err" data-for="location"></div>
+                <div class="row">
+                    <div><label>Time:</label><input id="time" type="time">
+                        <div class="err" data-for="time"></div>
+                    </div>
+                    <div><label>Date:</label><input id="date" type="date">
+                        <div class="err" data-for="date"></div>
+                    </div>
+                </div>
+                <button class="btn" type="submit">Submit</button>
+            </form>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
