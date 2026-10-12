@@ -14,10 +14,11 @@ body {
   font-family: Georgia, "Times New Roman", serif;
   background: #fff;
   color: #111;
+  min-width: 320px;
 }
 .app {
   display: grid;
-  grid-template-columns: 170px 1fr;
+  grid-template-columns: 170px minmax(0, 1fr);
   min-height: 100vh;
   background: var(--bg);
 }
@@ -55,6 +56,7 @@ aside a.active {
   background: var(--blue);
 }
 main {
+  min-width: 0;
   padding: 0 24px 30px;
 }
 main > header {
@@ -239,6 +241,7 @@ table {
   max-width: 640px;
   font: 14px Arial;
   background: #fff;
+  overflow-wrap: anywhere;
 }
 td,
 th {
@@ -260,6 +263,7 @@ th {
   background: #b8e6b8;
 }
 .login {
+  width: 100%;
   max-width: 340px;
   margin: 0 auto;
   min-height: 100vh;
@@ -283,12 +287,108 @@ th {
   cursor: pointer;
   margin-top: 26px;
 }
-@media (max-width: 700px) {
+@media (max-width: 760px) {
   .app {
     grid-template-columns: 1fr;
   }
   aside {
+    display: flex;
+    align-items: center;
+    gap: 8px 14px;
     border-right: 0;
     border-bottom: 1px solid #111;
+    padding: 10px 14px;
+  }
+  aside .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 12px 0 0;
+  }
+  aside .brand svg {
+    width: 34px;
+    height: 34px;
+    margin: 0;
+  }
+  aside h4 {
+    margin: 0;
+  }
+  aside a {
+    padding: 7px 8px;
+  }
+  main {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+}
+@media (max-width: 520px) {
+  aside {
+    justify-content: center;
+    gap: 6px;
+  }
+  aside .brand {
+    width: 100%;
+    justify-content: center;
+    margin: 0 0 4px;
+  }
+  aside h4 {
+    width: 100%;
+    text-align: center;
+  }
+  aside a {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+  main {
+    padding: 0 12px 24px;
+  }
+  main > header {
+    gap: 12px;
+    padding: 16px 0 12px;
+  }
+  main > header h1 {
+    font-size: clamp(17px, 5vw, 22px);
+  }
+  .logout {
+    flex: 0 0 auto;
+  }
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .row > div {
+    width: 100%;
+  }
+  input,
+  textarea,
+  select,
+  .pw {
+    max-width: none;
+  }
+  .filters select,
+  .doc,
+  .card,
+  .msg,
+  table {
+    max-width: 100%;
+  }
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+  th,
+  td {
+    min-width: 100px;
+  }
+  .btn {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+  .msg {
+    margin-top: 28px;
+  }
+  .login {
+    padding: 32px 20px;
   }
 }
