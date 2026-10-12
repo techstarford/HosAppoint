@@ -113,6 +113,7 @@ label {
   margin: 14px 0 4px;
 }
 input,
+textarea,
 select {
   width: 100%;
   max-width: 380px;
@@ -123,8 +124,15 @@ select {
   border-radius: 3px;
 }
 input:focus,
+textarea:focus,
 select:focus {
   outline: 2px solid var(--cyan);
+}
+textarea {
+  display: block;
+  min-height: 120px;
+  resize: vertical;
+  font: 14px Arial, sans-serif;
 }
 .row {
   display: flex;

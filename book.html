@@ -39,13 +39,24 @@
                 <label>Location:</label><input id="location">
                 <div class="err" data-for="location"></div>
                 <div class="row">
-                    <div><label>Time:</label><input id="time" type="time">
+                    <div><label>Time:</label><input id="time" type="time" required>
+                        <small id="timeAvailability"></small>
                         <div class="err" data-for="time"></div>
                     </div>
                     <div><label>Date:</label><input id="date" type="date">
+                        <small id="dateAvailability"></small>
                         <div class="err" data-for="date"></div>
                     </div>
                 </div>
+                <label for="message">Message:</label>
+                <textarea id="message" rows="5" placeholder="Any additional information for the doctor before appointment e.g. Any underlying conditions"></textarea>
+                <label for="attachments">Attach prior diagnostics or X-rays (optional):</label>
+                <input id="attachments" type="file" accept="image/*,.pdf,.dcm" multiple>
+                <small>Supported: images, PDF, and DICOM files.</small>
+                <small id="attachmentList"></small>
+                <div class="err" data-for="attachments"></div>
+                <small>Enter 10–1,000 words.</small>
+                <div class="err" data-for="message"></div>
                 <button class="btn" type="submit">Submit</button>
             </form>
         </main>
