@@ -14,11 +14,10 @@ body {
   font-family: Georgia, "Times New Roman", serif;
   background: #fff;
   color: #111;
-  min-width: 320px;
 }
 .app {
   display: grid;
-  grid-template-columns: 170px minmax(0, 1fr);
+  grid-template-columns: 170px 1fr;
   min-height: 100vh;
   background: var(--bg);
 }
@@ -287,62 +286,26 @@ th {
   cursor: pointer;
   margin-top: 26px;
 }
-@media (max-width: 760px) {
+@media (max-width: 700px) {
   .app {
     grid-template-columns: 1fr;
   }
   aside {
-    display: flex;
-    align-items: center;
-    gap: 8px 14px;
     border-right: 0;
     border-bottom: 1px solid #111;
-    padding: 10px 14px;
-  }
-  aside .brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 12px 0 0;
-  }
-  aside .brand svg {
-    width: 34px;
-    height: 34px;
-    margin: 0;
-  }
-  aside h4 {
-    margin: 0;
-  }
-  aside a {
-    padding: 7px 8px;
+    padding: 14px 10px;
   }
   main {
-    padding-right: 18px;
-    padding-left: 18px;
+    padding-right: 16px;
+    padding-left: 16px;
   }
 }
 @media (max-width: 520px) {
-  aside {
-    justify-content: center;
-    gap: 6px;
-  }
-  aside .brand {
-    width: 100%;
-    justify-content: center;
-    margin: 0 0 4px;
-  }
-  aside h4 {
-    width: 100%;
-    text-align: center;
-  }
-  aside a {
-    flex: 1 1 auto;
-    text-align: center;
-  }
   main {
     padding: 0 12px 24px;
   }
   main > header {
+    flex-wrap: wrap;
     gap: 12px;
     padding: 16px 0 12px;
   }
@@ -363,7 +326,7 @@ th {
   textarea,
   select,
   .pw {
-    max-width: none;
+    max-width: 100%;
   }
   .filters select,
   .doc,
@@ -375,10 +338,6 @@ th {
   table {
     display: block;
     overflow-x: auto;
-  }
-  th,
-  td {
-    min-width: 100px;
   }
   .btn {
     max-width: 100%;
