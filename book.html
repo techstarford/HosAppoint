@@ -20,21 +20,21 @@
                 <label>Name:</label><input id="name">
                 <div class="err" data-for="name"></div>
                 <div class="row">
-                    <div><label>Age:</label><input id="age" type="number" min="0" max="120">
+                    <div><label>Age:</label><input id="age" type="number" min="0" max="120" placeholder="0–120">
                         <div class="err" data-for="age"></div>
                     </div>
                     <div><label>Gender:</label><select id="pgender">
                             <option value="">Select</option>
                             <option>Female</option>
                             <option>Male</option>
-                            <option>Other</option>
+                            <option>Confidential</option>
                         </select>
                         <div class="err" data-for="pgender"></div>
                     </div>
                 </div>
-                <label>Email:</label><input id="email" type="email">
+                <label>Email:</label><input id="email" type="email" placeholder="you@example.com">
                 <div class="err" data-for="email"></div>
-                <label>Phone Number:</label><input id="phone" type="tel" placeholder="+256700000000">
+                <label>Phone Number:</label><input id="phone" type="tel" placeholder="+256700000000/0700000000">
                 <div class="err" data-for="phone"></div>
                 <label>Location:</label><input id="location">
                 <div class="err" data-for="location"></div>
@@ -48,15 +48,16 @@
                         <div class="err" data-for="date"></div>
                     </div>
                 </div>
-                <label for="message">Message:</label>
+                <label for="message">Message (optional):</label>
                 <textarea id="message" rows="5" placeholder="Any additional information for the doctor before appointment e.g. Any underlying conditions"></textarea>
+                <small>For a message, enter 10–1,000 words.</small>
+                <div class="err" data-for="message"></div>
                 <label for="attachments">Attach prior diagnostics or X-rays (optional):</label>
                 <input id="attachments" type="file" accept="image/*,.pdf,.dcm" multiple>
                 <small>Supported: images, PDF, and DICOM files.</small>
+                <small id="existingAttachmentList"></small>
                 <small id="attachmentList"></small>
                 <div class="err" data-for="attachments"></div>
-                <small>Enter 10–1,000 words.</small>
-                <div class="err" data-for="message"></div>
                 <button class="btn" type="submit">Submit</button>
             </form>
         </main>

@@ -117,13 +117,39 @@ if(page==="doctors"){
   btn.onclick=()=>{set("hos_doc",DOCTORS.find(d=>d.id===sel));location.href="book.html"};
 }
 
+if(page==="confirmation"){
+  const editLink=$("#editConfirmation"),last=get("hos_last");
+  if(editLink&&last){
+    editLink.onclick=()=>set("hos_edit_id",last);
+  }else if(editLink){
+    editLink.hidden=true;
+  }
+}
+
 /* BOOKING FORM */
 if(page==="book"){
-  const doc=get("hos_doc");if(!doc)location.href="doctors.html";
+  const editingId=get("hos_edit_id"),appointments=get("hos_appts",[]);
+  const editingAppointment=editingId?appointments.find(a=>a.id===editingId):null;
+  const doc=editingAppointment?DOCTORS.find(d=>d.id===editingAppointment.doctorId):get("hos_doc");
+  if(!doc){location.href="doctors.html";}
   const date=$("#date"),time=$("#time");
-  const attachments=$("#attachments"),attachmentList=$("#attachmentList");
+  const attachments=$("#attachments"),attachmentList=$("#attachmentList"),existingAttachmentList=$("#existingAttachmentList");
   attachments.onchange=()=>{attachmentList.textContent=Array.from(attachments.files).map(file=>file.name).join(", ");};
   $("#docInfo").textContent=`Booking with ${doc.name} (${doc.area})`;
+  if(editingAppointment){
+    ["name","age","email","phone","location","time","date","message"].forEach(id=>{
+      $("#"+id).value=editingAppointment[id]||"";
+    });
+    $("#pgender").value=editingAppointment.gender||"";
+    $("#bookForm button[type='submit']").textContent="Save Changes";
+    getAppointmentAttachments(editingId).then(files=>{
+      existingAttachmentList.textContent=files.length?`Already attached: ${files.map(file=>file.name).join(", ")}`:"";
+    }).catch(error=>{
+      console.error(error);
+      setErr(attachments,"Could not load existing attachments. They will be retained if you save.");
+      existingAttachmentList.textContent="Existing attachments could not be listed.";
+    });
+  }
   const today=new Date().toISOString().split("T")[0];
   date.min=today;
   time.min=doc.startTime;
@@ -157,16 +183,35 @@ if(page==="book"){
       setErr(f("time"),!v("time")?"Select a time":v("time")<doc.startTime||v("time")>doc.endTime?`Choose a time between ${doc.startTime} and ${doc.endTime}`:""),
       setErr(f("date"),!v("date")?"Select a date":v("date")<today?"Date cannot be in the past":!isDoctorAvailableOnDate(doc,v("date"))?`Doctor is available only on ${doc.hours.split(",")[0]}`:""),
       setErr(f("attachments"),invalidFile?"Attach image, PDF, or DICOM files only":""),
-      setErr(f("message"),messageWords<10?"Enter at least 10 words":messageWords>1000?"Message cannot exceed 1,000 words":"")
+      setErr(f("message"),v("message")&&messageWords<10?"Enter at least 10 words":messageWords>1000?"Message cannot exceed 1,000 words":"")
     ].every(Boolean);
     if(!ok)return;
     const ap=get("hos_appts",[]);
-    const a={id:"APT-"+String(1000+ap.length+1),doctorId:doc.id,doctor:doc.name,area:doc.area,name:v("name"),age:v("age"),gender:v("pgender"),email:v("email"),phone:v("phone"),location:v("location"),time:v("time"),date:v("date"),message:v("message"),attachmentCount:files.length,status:"Pending"};
+    const a=editingAppointment?{
+      ...editingAppointment,doctorId:doc.id,doctor:doc.name,area:doc.area,
+      name:v("name"),age:v("age"),gender:v("pgender"),email:v("email"),phone:v("phone"),
+      location:v("location"),time:v("time"),date:v("date"),message:v("message"),
+      attachmentCount:(editingAppointment.attachmentCount||0)+files.length,status:"Pending"
+    }:{
+      id:"APT-"+String(1000+ap.length+1),doctorId:doc.id,doctor:doc.name,area:doc.area,
+      name:v("name"),age:v("age"),gender:v("pgender"),email:v("email"),phone:v("phone"),
+      location:v("location"),time:v("time"),date:v("date"),message:v("message"),
+      attachmentCount:files.length,status:"Pending"
+    };
     if(files.length){
       try{await saveAppointmentAttachments(a.id,files);}
       catch(error){console.error(error);setErr(f("attachments"),"Could not save the attachments. Please try again.");return;}
     }
-    ap.push(a);set("hos_appts",ap);set("hos_last",a.id);location.href="confirmation.html";};
+    if(editingAppointment){
+      const index=ap.findIndex(existing=>existing.id===editingAppointment.id);
+      if(index===-1){setErr(f("date"),"This appointment could not be found. Please return to appointment details.");return;}
+      ap[index]=a;
+      localStorage.removeItem("hos_edit_id");
+    }else{
+      ap.push(a);
+      set("hos_last",a.id);
+    }
+    set("hos_appts",ap);location.href="confirmation.html";};
 }
 
 /* DETAILS */
@@ -183,7 +228,8 @@ if(page==="details"){
     <tr><th>Location</th><td>${a.location}</td></tr>
     <tr><th>Message</th><td>${a.message?escapeHtml(a.message):"—"}</td></tr>
     ${a.attachmentCount?`<tr><th>Attachments</th><td><div data-attachments-for="${escapeHtml(a.id)}">Loading attachments…</div></td></tr>`:""}</table>
-    ${a.status==="Pending"?`<button class="btn" style="margin:-8px 0 24px" data-id="${a.id}">Simulate approval (demo)</button>`:""}`).join(""):"<p>You have no appointments yet.</p>";
+    <a class="btn" style="margin:-8px 0 24px" href="book.html" data-edit-id="${escapeHtml(a.id)}">Edit Appointment Details</a>
+    ${a.status==="Pending"?`<button class="btn" style="margin:-8px 0 24px" data-id="${escapeHtml(a.id)}">Simulate approval (demo)</button>`:""}`).join(""):"<p>You have no appointments yet.</p>";
     ap.filter(a=>a.attachmentCount).forEach(async a=>{
       const target=document.querySelector(`[data-attachments-for="${a.id}"]`);
       if(!target)return;
@@ -199,6 +245,7 @@ if(page==="details"){
         if(!files.length)target.textContent="No saved attachments.";
       }catch(error){console.error(error);target.textContent="Could not load attachments.";}
     });
+    document.querySelectorAll("[data-edit-id]").forEach(link=>link.onclick=()=>set("hos_edit_id",link.dataset.editId));
     document.querySelectorAll("[data-id]").forEach(b=>b.onclick=()=>{const l=get("hos_appts",[]);l.find(x=>x.id===b.dataset.id).status="Approved";set("hos_appts",l);render()});};
   render();
 }
