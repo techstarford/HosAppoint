@@ -73,7 +73,7 @@ main > header h1 {
 }
 .logout {
   font: 13px Arial;
-  background: none;
+  background: var(--blue);
   border: 1px solid #111;
   border-radius: 6px;
   padding: 4px 10px;
